@@ -2,13 +2,22 @@
 
 A clone of [Wordle](https://www.powerlanguage.co.uk/wordle/).
 
-<!-- ## Installation
+Built using React, hosted with Netlify.
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+## Run
+```
+yarn && yarn start
+```
+or
+```
+yarn && netlify dev
+```
 
-```bash
-pip install foobar
-``` -->
+## Build & Deploy
+```
+yarn build
+netlify deploy --prod
+```
 
 <!-- ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
