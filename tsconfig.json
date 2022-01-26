@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "src",
     "jsx": "react",
     "module": "system",
     "noImplicitAny": true,
@@ -14,5 +15,9 @@
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "paths": {
+      "components/*": ["src/components/*"],
+      "services/*": ["src/services/*"],
+    },
 }
