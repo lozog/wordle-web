@@ -11,7 +11,6 @@ export function App() {
   let letterResults: {
     [x: string]: LetterResult;
   } = ALPHABET.reduce((a, letter) => ({ ...a, [letter]: LetterResult.UNUSED }), {})
-  console.log(letterResults)
 
   for (let guessCount = 0; guessCount < MAX_GUESS_COUNT; guessCount++) {
     // TODO: get_input
@@ -20,8 +19,8 @@ export function App() {
   }
 
   const renderGuesses = () => {
-    return guesses.map(guess => (
-      <Guess guess={guess} word={word} />
+    return guesses.map((guess, i) => (
+      <Guess key={i} guess={guess} word={word} />
     ))
   }
 

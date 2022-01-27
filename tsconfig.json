@@ -2,6 +2,7 @@
   "compilerOptions": {
     "baseUrl": "src",
     "jsx": "react",
+    "target": "es2021",
     "module": "system",
     "noImplicitAny": true,
     "removeComments": true,

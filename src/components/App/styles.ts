@@ -3,9 +3,8 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  background: grey;
+  width: 500px;
+  margin: 0 auto;
 `;
 
-export const Guesses = styled.div`
-  
-`;
+export const Guesses = styled.div``;

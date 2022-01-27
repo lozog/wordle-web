@@ -7,6 +7,6 @@ interface Props {
 
 export function Guess({ guess, word }: Props) {
   return (
-    <div>a{guess}</div>
+    <div>{guess}</div>
   );
 }
