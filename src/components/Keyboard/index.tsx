@@ -1,20 +1,21 @@
 import React from "react";
 import { LetterResult } from "services/wordle";
+import * as S from "./styles";
 
 interface Props {
-  letter_results: {
+  letterResults: {
     [x: string]: LetterResult;
   };
 }
 
-export function Keyboard({ letter_results }: Props) {
-  const letter_boxes = Object.keys(letter_results).map((key: string) => {
-    let value = letter_results[key];
+export function Keyboard({ letterResults }: Props) {
+  const letter_boxes = Object.keys(letterResults).map((key: string) => {
+    let value = letterResults[key];
     return <div>{key}: {value}</div>
   });
   return (
-    <>
+    <S.Container>
       {letter_boxes}
-    </>
+    </S.Container>
   );
 }
