@@ -21,15 +21,15 @@ export function App() {
   const renderGuesses = () => {
     return guesses.map((guess, i) => (
       <Guess key={i} guess={guess} word={word} />
-    ))
+    ));
   }
 
   return (
-    <S.Wrapper>
+    <S.Container>
       <S.Guesses>
         {renderGuesses()}
       </S.Guesses>
       <Keyboard letterResults={letterResults} />
-    </S.Wrapper>
+    </S.Container>
   );
 }
