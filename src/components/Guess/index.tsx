@@ -5,12 +5,16 @@ import * as S from "./styles";
 interface Props {
   guess: string;
   word: string;
+  currentGuessCount: number;
+  guessIndex: number;
 }
 
-export function Guess({ guess, word }: Props) {
+export function Guess({ guess, word, currentGuessCount, guessIndex }: Props) {
   const renderTiles = () => {
     return [...Array(WORD_LENGTH).keys()].map(i => (
-      <S.Letter letterResult={LetterResult.UNUSED}>{i}</S.Letter>
+      <S.Letter key={i} letterResult={LetterResult.UNUSED}>
+        {currentGuessCount === guessIndex && guess.split("")[i]}
+      </S.Letter>
     ))
   }
   return (
