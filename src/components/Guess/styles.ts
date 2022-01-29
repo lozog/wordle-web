@@ -26,7 +26,7 @@ export const Letter = styled.div<{
   font-size: 2rem;
   font-weight: bold;
 
-  ${props => (props.letterToRender !== "") && "border: 2px solid #d7dadc;"};
+  ${props => (props.letterToRender !== "") && "border: 1px solid #d7dadc;"};
 
   :hover {
     background: #333333;
