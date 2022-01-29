@@ -9,15 +9,19 @@ export function App() {
   const [currentGuess, setCurrentGuess] = useState("");
   const [prevGuesses, setPrevGuesses] = useState([]);
 
+  const handleLetterPress = (letter: string) => {
+    setCurrentGuess(prevGuess => {
+      if (prevGuess.length < WORD_LENGTH) {
+        return `${prevGuess}${letter}`;
+      }
+      return prevGuess;
+    });
+  }
+
   const handleUserKeyPress = useCallback(event => {
     const { key, keyCode } = event;
     if (keyCode >= 65 && keyCode <= 90) {
-      setCurrentGuess(prevGuess => {
-        if (prevGuess.length < WORD_LENGTH) {
-          return `${prevGuess}${key}`;
-        }
-        return prevGuess;
-      });
+      handleLetterPress(key);
     }
 
     if (key === "Backspace") {
@@ -88,7 +92,7 @@ export function App() {
       <S.Guesses>
         {renderGuesses()}
       </S.Guesses>
-      <Keyboard letterResults={letterResults} />
+      <Keyboard letterResults={letterResults} handleLetterPress={handleLetterPress} />
     </S.Container>
   );
 }

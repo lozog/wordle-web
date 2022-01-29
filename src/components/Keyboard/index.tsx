@@ -10,12 +10,21 @@ interface Props {
   letterResults: {
     [x: string]: LetterResult;
   };
+  handleLetterPress: (letter: string) => void;
 }
 
-export function Keyboard({ letterResults }: Props) {
+export function Keyboard({ letterResults, handleLetterPress }: Props) {
   const renderRow = (rowLetters: string) => {
     return [...rowLetters].map(letter => (
-      <S.KeyButton key={letter} letterResult={letterResults[letter]}>{letter}</S.KeyButton>
+      <S.KeyButton
+        key={letter}
+        letterResult={letterResults[letter]}
+        onClick={(e) => {
+          handleLetterPress(letter);
+        }}
+      >
+        {letter}
+      </S.KeyButton>
     ))
   };
 
