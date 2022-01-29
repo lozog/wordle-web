@@ -7,7 +7,7 @@ import * as S from "./styles";
 export function App() {
   const word = "crimp";
   const [currentGuess, setCurrentGuess] = useState("");
-  const [currentGuessCount, setCurrentGuessCount] = useState(0);
+  const [prevGuesses, setPrevGuesses] = useState([]);
 
   const handleUserKeyPress = useCallback(event => {
     const { key, keyCode } = event;
@@ -28,7 +28,18 @@ export function App() {
         return "";
       });
     }
-  }, []);
+
+    if (key === "Enter") {
+      setCurrentGuess(prevGuess => {
+        if (prevGuess.length === WORD_LENGTH) {
+          // TODO: sometimes this gets called twice when enter is pressed
+          setPrevGuesses([...prevGuesses, prevGuess]); // TODO: useCallback
+          return "";
+        }
+        return prevGuess;
+      });
+    }
+  }, [prevGuesses]);
 
   useEffect(() => {
     document.addEventListener('keydown', handleUserKeyPress);
@@ -36,6 +47,20 @@ export function App() {
       document.removeEventListener('keydown', handleUserKeyPress);
     }
   }, [handleUserKeyPress])
+
+  const getWordToRender = (i: number) => {
+    let wordToRender = prevGuesses[i];
+
+    if (wordToRender) {
+      return wordToRender;
+    }
+
+    if (i === prevGuesses.length) {
+      return currentGuess;
+    } else {
+      return "";
+    }
+  }
 
   let letterResults: {
     [x: string]: LetterResult;
@@ -49,7 +74,11 @@ export function App() {
 
   const renderGuesses = () => {
     return [...Array(MAX_GUESS_COUNT).keys()].map((guessNumber, i) => (
-      <Guess key={i} guessIndex={i} currentGuessCount={currentGuessCount} guess={currentGuess} word={word} />
+      <Guess
+        key={i}
+        wordToRender={getWordToRender(i)}
+        word={word}
+      />
     ));
   }
 
