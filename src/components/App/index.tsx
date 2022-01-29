@@ -73,11 +73,12 @@ export function App() {
   }
 
   const renderGuesses = () => {
-    return [...Array(MAX_GUESS_COUNT).keys()].map((guessNumber, i) => (
+    return [...Array(MAX_GUESS_COUNT).keys()].map((guessIndex, i) => (
       <Guess
         key={i}
         wordToRender={getWordToRender(i)}
         word={word}
+        isLockedIn={guessIndex < prevGuesses.length - 1}
       />
     ));
   }

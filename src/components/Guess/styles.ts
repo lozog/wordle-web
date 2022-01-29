@@ -8,7 +8,11 @@ export const Container = styled.div<{ wordLength: number }>`
   )};
 `;
 
-export const Letter = styled.div<{ letterResult: number }>`
+export const Letter = styled.div<{
+  letterToRender: string,
+  letterResult: number,
+  isLockedIn: boolean,
+}>`
   display: flex;
   flex: 1;
   cursor: pointer;
@@ -22,9 +26,7 @@ export const Letter = styled.div<{ letterResult: number }>`
   font-size: 2rem;
   font-weight: bold;
 
-  /* background ${({ letterResult }) => (
-    letterResult === 3 ? "#565758" : "red"
-  )}; */
+  ${props => (props.letterToRender !== "") && "border: 2px solid #d7dadc;"};
 
   :hover {
     background: #333333;
