@@ -4,6 +4,34 @@ import { Guess } from "components/Guess";
 import { ALPHABET, LetterResult, MAX_GUESS_COUNT, WORD_LENGTH } from "services/wordle";
 import * as S from "./styles";
 
+const analyzeGuess = (guess: string, word: string) => {
+  const guessResult = guess.split("").map(_ => LetterResult.INCORRECT);
+  const remainingGuess = guess.split("");
+  const unguessedLetters = word.split("");
+
+  // 1. find all letters in correct position
+  guess.split("").forEach((letter, i) => {
+    if (letter === word.split("")[i]) {
+      guessResult[i] = LetterResult.CORRECT_POSITION;
+      remainingGuess[i] = null;
+      unguessedLetters[i] = null;
+    }
+  })
+
+  // 2. find any remaining letters that are in incorrect positions
+  remainingGuess.forEach((letter, i) => {
+    if (letter !== null && unguessedLetters.includes(letter)) {
+      guessResult[i] = LetterResult.INCORRECT_POSITION;
+      unguessedLetters.splice(unguessedLetters.indexOf(letter), 1);
+    }
+  })
+
+  // TODO: keep track of guessed letters
+
+  console.log(guessResult);
+  return guessResult;
+}
+
 export function App() {
   const word = "crimp";
   const [currentGuess, setCurrentGuess] = useState("");
@@ -37,6 +65,7 @@ export function App() {
       setCurrentGuess(prevGuess => {
         if (prevGuess.length === WORD_LENGTH) {
           // TODO: sometimes this gets called twice when enter is pressed
+          const guessResult = analyzeGuess(prevGuess, word);
           setPrevGuesses([...prevGuesses, prevGuess]); // TODO: useCallback
           return "";
         }
