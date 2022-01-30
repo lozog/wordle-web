@@ -1,3 +1,4 @@
+import { LetterResult } from "services/wordle";
 import styled from "styled-components";
 
 export const Container = styled.div<{ wordLength: number }>`
@@ -10,12 +11,11 @@ export const Container = styled.div<{ wordLength: number }>`
 
 export const Letter = styled.div<{
   letterToRender: string,
-  letterResult: number,
+  letterResult: number | null,
   isLockedIn: boolean,
 }>`
   display: flex;
   flex: 1;
-  cursor: pointer;
   position: relative;
   background: none;
   padding: 0;
@@ -28,7 +28,19 @@ export const Letter = styled.div<{
 
   ${props => (props.letterToRender !== "") && "border: 1px solid #d7dadc;"};
 
-  :hover {
-    background: #333333;
-  }
+  ${props => {
+    if (props.letterResult === LetterResult.CORRECT_POSITION) {
+      return "background: #538d4e; border: none;";
+    }
+
+    if (props.letterResult === LetterResult.INCORRECT_POSITION) {
+      return "background: #b59f3b; border: none;";
+    }
+
+    if (props.letterResult === LetterResult.INCORRECT) {
+      return "background: #3a3a3c; border: none;";
+    }
+
+    return "";
+  }};
 `;

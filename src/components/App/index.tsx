@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Keyboard } from "components/Keyboard";
 import { Guess } from "components/Guess";
-import { ALPHABET, LetterResult, MAX_GUESS_COUNT, WORD_LENGTH } from "services/wordle";
+import { ALPHABET, LetterResult, MAX_GUESS_COUNT, WORD_LENGTH, GuessResult } from "services/wordle";
 import * as S from "./styles";
 
 const analyzeGuess = (guess: string, word: string) => {
@@ -35,7 +35,7 @@ const analyzeGuess = (guess: string, word: string) => {
 export function App() {
   const word = "crimp";
   const [currentGuess, setCurrentGuess] = useState("");
-  const [prevGuesses, setPrevGuesses] = useState([]);
+  const [prevGuesses, setPrevGuesses] = useState<GuessResult[]>([]);
 
   const handleLetterPress = (letter: string) => {
     setCurrentGuess(prevGuess => {
@@ -65,8 +65,11 @@ export function App() {
       setCurrentGuess(prevGuess => {
         if (prevGuess.length === WORD_LENGTH) {
           // TODO: sometimes this gets called twice when enter is pressed
-          const guessResult = analyzeGuess(prevGuess, word);
-          setPrevGuesses([...prevGuesses, prevGuess]); // TODO: useCallback
+          const guessResult = {
+            guess: prevGuess,
+            result: analyzeGuess(prevGuess, word),
+          };
+          setPrevGuesses([...prevGuesses, guessResult]); // TODO: useCallback
           return "";
         }
         return prevGuess;
