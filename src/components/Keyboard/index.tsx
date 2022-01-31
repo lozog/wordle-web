@@ -19,8 +19,11 @@ export function Keyboard({ letterResults, handleLetterPress }: Props) {
       <S.KeyButton
         key={letter}
         letterResult={letterResults[letter]}
-        onClick={(e) => {
+        onClick={() => {
           handleLetterPress(letter);
+        }}
+        onKeyDown={(e) => {
+          e.preventDefault()
         }}
       >
         {letter}
