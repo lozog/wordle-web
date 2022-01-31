@@ -15,6 +15,8 @@ export const MAX_GUESS_COUNT = 6;
 export const ALPHABET = "abcdefghijklmnopqrstuvwxyz".split("");
 export const HARD_MODE = false;
 
+export interface LetterResults { [x: string]: LetterResult; };
+
 export interface GuessResult {
   guess: string;
   result: LetterResult[];

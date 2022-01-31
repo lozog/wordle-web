@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Keyboard } from "components/Keyboard";
 import { Guess } from "components/Guess";
-import { ALPHABET, LetterResult, MAX_GUESS_COUNT, WORD_LENGTH, GuessResult } from "services/wordle";
+import { ALPHABET, LetterResult, MAX_GUESS_COUNT, WORD_LENGTH, GuessResult, LetterResults } from "services/wordle";
 import * as S from "./styles";
 
-const analyzeGuess = (guess: string, word: string) => {
+const analyzeGuess = (guess: string, word: string, letterResults: LetterResults) => {
   const guessResult = guess.split("").map(_ => LetterResult.INCORRECT);
   const remainingGuess = guess.split("");
   const unguessedLetters = word.split("");
@@ -26,16 +26,24 @@ const analyzeGuess = (guess: string, word: string) => {
     }
   })
 
-  // TODO: keep track of guessed letters
+  // 3. keep track of guessed letters
+  const fullGuessResults = guess.split("").map((letter, i) => ({[letter]: guessResult[i]}));
+  let letterResultsToUpdate = {};
+  fullGuessResults.forEach((guessResult, i) => {
+    // TODO: only overwrite when LetterResult is UNUSED
+    letterResultsToUpdate = { ...letterResultsToUpdate, ...guessResult}
+  })
 
-  console.log(guessResult);
-  return guessResult;
+  return {
+    result: guessResult, letterResultsToUpdate
+  };
 }
 
 export function App() {
   const word = "crimp";
   const [currentGuess, setCurrentGuess] = useState("");
   const [prevGuesses, setPrevGuesses] = useState<GuessResult[]>([]);
+  const [letterResults, setLetterResults] = useState <LetterResults>({});
 
   const handleLetterPress = (letter: string) => {
     setCurrentGuess(prevGuess => {
@@ -62,20 +70,21 @@ export function App() {
     }
 
     if (key === "Enter") {
-      setCurrentGuess(prevGuess => {
+      setCurrentGuess(prevGuess => { // TODO: sometimes this gets called twice when enter is pressed
         if (prevGuess.length === WORD_LENGTH) {
-          // TODO: sometimes this gets called twice when enter is pressed
+          const { result, letterResultsToUpdate } = analyzeGuess(prevGuess, word, letterResults);
           const guessResult = {
             guess: prevGuess,
-            result: analyzeGuess(prevGuess, word),
+            result,
           };
           setPrevGuesses([...prevGuesses, guessResult]); // TODO: useCallback
+          setLetterResults({...letterResults, ...letterResultsToUpdate});
           return "";
         }
         return prevGuess;
       });
     }
-  }, [prevGuesses]);
+  }, [prevGuesses, letterResults]);
 
   useEffect(() => {
     document.addEventListener('keydown', handleUserKeyPress);
@@ -83,6 +92,10 @@ export function App() {
       document.removeEventListener('keydown', handleUserKeyPress);
     }
   }, [handleUserKeyPress])
+
+  useEffect(() => {
+    setLetterResults(ALPHABET.reduce((a, letter) => ({ ...a, [letter]: LetterResult.UNUSED }), {}));
+  }, [])
 
   const getWordToRender = (i: number) => {
     let wordToRender = prevGuesses[i];
@@ -96,16 +109,6 @@ export function App() {
     } else {
       return "";
     }
-  }
-
-  let letterResults: {
-    [x: string]: LetterResult;
-  } = ALPHABET.reduce((a, letter) => ({ ...a, [letter]: LetterResult.UNUSED }), {});
-
-  for (let guessCount = 0; guessCount < MAX_GUESS_COUNT; guessCount++) {
-    // TODO: get_input
-    // TODO: analyze_guess
-    // TODO: check if they've won
   }
 
   const renderGuesses = () => {

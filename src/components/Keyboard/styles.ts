@@ -1,3 +1,4 @@
+import { LetterResult } from "services/wordle";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -19,13 +20,20 @@ export const KeyButton = styled.button<{ letterResult: number }>`
   text-transform: uppercase;
   border-radius: 4px;
 
-  background ${({ letterResult }) => (
-    letterResult === 3 ? "#565758" : "red"
-  )};
-
-  :hover {
-    background: #333333;
-  }
+  background ${({ letterResult }) => {
+    if (letterResult === LetterResult.CORRECT_POSITION) {
+      return "#538d4e";
+    }
+    if (letterResult === LetterResult.INCORRECT_POSITION) {
+      return "#b59f3b";
+    }
+    if (letterResult === LetterResult.INCORRECT) {
+      return "#3a3a3c";
+    }
+    if (letterResult === LetterResult.UNUSED) {
+      return "#565758";
+    }
+  }};
 `;
 
 export const Row = styled.div`
