@@ -37,7 +37,7 @@ export const Letter = styled.div<{
       return "background: #b59f3b; border: none;";
     }
 
-    if (props.letterResult === LetterResult.INCORRECT) {
+    if (props.letterResult === LetterResult.NOT_IN_WORD) {
       return "background: #3a3a3c; border: none;";
     }
 

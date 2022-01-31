@@ -27,10 +27,10 @@ export const KeyButton = styled.button<{ letterResult: number }>`
     if (letterResult === LetterResult.INCORRECT_POSITION) {
       return "#b59f3b";
     }
-    if (letterResult === LetterResult.INCORRECT) {
+    if (letterResult === LetterResult.NOT_IN_WORD) {
       return "#3a3a3c";
     }
-    if (letterResult === LetterResult.UNUSED) {
+    if (letterResult === LetterResult.NOT_GUESSED) {
       return "#565758";
     }
   }};

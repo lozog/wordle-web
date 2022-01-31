@@ -5,7 +5,7 @@ import { ALPHABET, LetterResult, MAX_GUESS_COUNT, WORD_LENGTH, GuessResult, Lett
 import * as S from "./styles";
 
 const analyzeGuess = (guess: string, word: string, letterResults: LetterResults) => {
-  const guessResult = guess.split("").map(_ => LetterResult.INCORRECT);
+  const guessResult = guess.split("").map(_ => LetterResult.NOT_IN_WORD);
   const remainingGuess = guess.split("");
   const unguessedLetters = word.split("");
 
@@ -32,7 +32,7 @@ const analyzeGuess = (guess: string, word: string, letterResults: LetterResults)
   fullGuessResults.forEach((guessResult, i) => {
     if (
       guessResult[1] === LetterResult.CORRECT_POSITION
-      || updatedLetterResults[guessResult[0]] === LetterResult.UNUSED
+      || updatedLetterResults[guessResult[0]] === LetterResult.NOT_GUESSED
     ) {
       updatedLetterResults = { ...updatedLetterResults, ...{ [guessResult[0]]: guessResult[1] as LetterResult } }
     }
@@ -98,7 +98,7 @@ export function App() {
   }, [handleUserKeyPress])
 
   useEffect(() => {
-    setLetterResults(ALPHABET.reduce((a, letter) => ({ ...a, [letter]: LetterResult.UNUSED }), {}));
+    setLetterResults(ALPHABET.reduce((a, letter) => ({ ...a, [letter]: LetterResult.NOT_GUESSED }), {}));
   }, [])
 
   const getWordToRender = (i: number) => {

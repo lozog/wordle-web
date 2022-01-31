@@ -1,8 +1,8 @@
 export enum LetterResult {
-  INCORRECT,
+  NOT_IN_WORD,
   INCORRECT_POSITION,
   CORRECT_POSITION,
-  UNUSED,
+  NOT_GUESSED,
 }
 
 export enum GameResult {
