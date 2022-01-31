@@ -1,5 +1,14 @@
 import styled from "styled-components";
 
+export const StatusText = styled.div`
+  display: flex;
+  width: 100%;
+  height: 50px;
+  font-weight: bold;
+  place-items: center;
+  justify-content: center;
+`;
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;

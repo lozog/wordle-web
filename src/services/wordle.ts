@@ -1,3 +1,4 @@
+import { ALLOWED_GUESSES } from "services/allowed-guesses";
 import { ANSWERS } from "services/answers";
 
 export enum LetterResult {
@@ -62,4 +63,14 @@ export function getRandomWord() {
   const word = ANSWERS[Math.floor(Math.random() * ANSWERS.length)];
 
   return word;
+}
+
+export function validateGuess(guess: string) {
+  // TODO: validate length
+
+  if (ALLOWED_GUESSES.indexOf(guess) === -1 && ANSWERS.indexOf(guess) === -1) {
+    return "Not in word list"
+  }
+
+  return null;
 }

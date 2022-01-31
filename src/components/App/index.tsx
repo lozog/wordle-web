@@ -7,7 +7,8 @@ import {
   GuessResult,
   LetterResults,
   analyzeGuess,
-  getRandomWord
+  getRandomWord,
+  validateGuess
 } from "services/wordle";
 import * as S from "./styles";
 
@@ -15,8 +16,8 @@ export function App() {
   const [currentGuess, setCurrentGuess] = useState("");
   const [prevGuesses, setPrevGuesses] = useState<GuessResult[]>([]);
   const [letterResults, setLetterResults] = useState <LetterResults>({});
+  const [statusText, setStatusText] = useState("");
   const word = useMemo(() => getRandomWord(), []);
-  console.log(word) // TODO: only do this locally
 
   const handleLetterPress = (letter: string) => {
     setCurrentGuess(prevGuess => {
@@ -43,6 +44,12 @@ export function App() {
     }
 
     if (key === "Enter") {
+      const validationMessage = validateGuess(currentGuess);
+      if (validationMessage) {
+        setStatusText(validationMessage);
+        return "";
+      }
+
       setCurrentGuess(prevGuess => { // TODO: sometimes this gets called twice when enter is pressed
         if (prevGuess.length === WORD_LENGTH) {
           const { result, updatedLetterResults } = analyzeGuess(prevGuess, word, letterResults);
@@ -57,7 +64,7 @@ export function App() {
         return prevGuess;
       });
     }
-  }, [prevGuesses, word, letterResults]);
+  }, [currentGuess, prevGuesses, word, letterResults]);
 
   useEffect(() => {
     document.addEventListener('keydown', handleUserKeyPress);
@@ -67,8 +74,9 @@ export function App() {
   }, [handleUserKeyPress])
 
   useEffect(() => {
+    console.log(word) // TODO: only do this locally
     setLetterResults(ALPHABET.reduce((a, letter) => ({ ...a, [letter]: LetterResult.NOT_GUESSED }), {}));
-  }, [])
+  }, [word])
 
   const getWordToRender = (i: number) => {
     let wordToRender = prevGuesses[i];
@@ -97,6 +105,7 @@ export function App() {
 
   return (
     <S.Container>
+      <S.StatusText>{statusText}</S.StatusText>
       <S.Guesses>
         {renderGuesses()}
       </S.Guesses>
