@@ -1,4 +1,4 @@
-import { answers } from "./answers";
+import { ANSWERS } from "services/answers";
 
 export enum LetterResult {
   NOT_IN_WORD,
@@ -59,7 +59,7 @@ export function analyzeGuess(guess: string, word: string, letterResults: LetterR
 }
 
 export function getRandomWord() {
-  const word = answers[Math.floor(Math.random() * answers.length)];
+  const word = ANSWERS[Math.floor(Math.random() * ANSWERS.length)];
 
   return word;
 }
