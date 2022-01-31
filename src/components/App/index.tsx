@@ -10,7 +10,8 @@ import {
   getRandomWord,
   validateGuess,
   GuessStatus,
-  getStatusText
+  getStatusText,
+  isGuessCorrect
 } from "services/wordle";
 import * as S from "./styles";
 
@@ -18,7 +19,7 @@ export function App() {
   const [currentGuess, setCurrentGuess] = useState("");
   const [prevGuesses, setPrevGuesses] = useState<GuessResult[]>([]);
   const [letterResults, setLetterResults] = useState <LetterResults>({});
-  const [status, setStatus] = useState(GuessStatus.VALID);
+  const [guessStatus, setGuessStatus] = useState(GuessStatus.VALID);
   const word = useMemo(() => getRandomWord(), []);
 
   const handleLetterPress = (letter: string) => {
@@ -48,10 +49,10 @@ export function App() {
     if (key === "Enter") {
       const guessStatus = validateGuess(currentGuess);
       if (guessStatus !== GuessStatus.VALID) {
-        setStatus(guessStatus);
+        setGuessStatus(guessStatus);
         return "";
       }
-      setStatus(GuessStatus.VALID);
+      setGuessStatus(GuessStatus.VALID);
 
       setCurrentGuess(prevGuess => { // TODO: sometimes this gets called twice when enter is pressed
         if (prevGuess.length === WORD_LENGTH) {
@@ -60,6 +61,11 @@ export function App() {
             guess: prevGuess,
             result,
           };
+
+          if(isGuessCorrect(guessResult)) {
+            setGuessStatus(GuessStatus.CORRECT);
+          }
+
           setPrevGuesses([...prevGuesses, guessResult]); // TODO: useCallback
           setLetterResults({...letterResults, ...updatedLetterResults});
           return "";
@@ -108,7 +114,7 @@ export function App() {
 
   return (
     <S.Container>
-      <S.StatusText>{getStatusText(status)}</S.StatusText>
+      <S.StatusText>{getStatusText(guessStatus)}</S.StatusText>
       <S.Guesses>
         {renderGuesses()}
       </S.Guesses>

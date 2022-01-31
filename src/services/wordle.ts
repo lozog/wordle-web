@@ -23,7 +23,8 @@ export interface GuessResult {
 export enum GuessStatus {
   VALID,
   LENGTH,
-  WORD_LIST
+  WORD_LIST,
+  CORRECT
 }
 
 export function analyzeGuess(guess: string, word: string, letterResults: LetterResults) {
@@ -92,5 +93,15 @@ export function getStatusText(status: GuessStatus) {
     return "Not in word list.";
   }
 
+  if (status === GuessStatus.CORRECT) {
+    return "Correct!";
+  }
+
   return "";
+}
+
+export function isGuessCorrect(guessResult: GuessResult) {
+  const { result } = guessResult;
+
+  return result.filter((elem) => elem !== LetterResult.CORRECT_POSITION).length === 0;
 }
