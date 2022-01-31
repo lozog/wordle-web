@@ -1,5 +1,6 @@
 import React from "react";
-import { GuessResult, WORD_LENGTH } from "services/wordle";
+import { WORD_LENGTH } from "services/constants";
+import { GuessResult } from "services/wordle";
 import * as S from "./styles";
 
 interface Props {

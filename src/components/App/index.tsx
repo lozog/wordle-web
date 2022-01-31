@@ -1,11 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Keyboard } from "components/Keyboard";
 import { Guess } from "components/Guess";
+import { ALPHABET, MAX_GUESS_COUNT, WORD_LENGTH } from "services/constants";
 import {
-  ALPHABET,
   LetterResult,
-  MAX_GUESS_COUNT,
-  WORD_LENGTH,
   GuessResult,
   LetterResults,
   analyzeGuess,
