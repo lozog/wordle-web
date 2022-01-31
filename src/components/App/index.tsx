@@ -9,21 +9,10 @@ import {
   analyzeGuess,
   getRandomWord,
   validateGuess,
-  GuessStatus
+  GuessStatus,
+  getStatusText
 } from "services/wordle";
 import * as S from "./styles";
-
-function getStatusText(status: GuessStatus) {
-  if (status === GuessStatus.LENGTH) {
-    return "Not enough letters.";
-  }
-
-  if (status === GuessStatus.WORD_LIST) {
-    return "Not in word list.";
-  }
-
-  return "";
-}
 
 export function App() {
   const [currentGuess, setCurrentGuess] = useState("");

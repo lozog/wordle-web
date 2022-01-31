@@ -82,3 +82,15 @@ export function validateGuess(guess: string) {
 
   return GuessStatus.VALID;
 }
+
+export function getStatusText(status: GuessStatus) {
+  if (status === GuessStatus.LENGTH) {
+    return "Not enough letters.";
+  }
+
+  if (status === GuessStatus.WORD_LIST) {
+    return "Not in word list.";
+  }
+
+  return "";
+}
