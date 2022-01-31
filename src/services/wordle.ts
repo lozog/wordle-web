@@ -1,5 +1,4 @@
-import { ALLOWED_GUESSES } from "services/allowed-guesses";
-import { ANSWERS } from "services/answers";
+import { ALLOWED_GUESSES, ANSWERS } from "services/answers";
 
 export enum LetterResult {
   NOT_IN_WORD,
