@@ -49,7 +49,7 @@ export function App() {
         return prevGuess;
       });
     }
-  }, [prevGuesses, letterResults]);
+  }, [prevGuesses, word, letterResults]);
 
   useEffect(() => {
     document.addEventListener('keydown', handleUserKeyPress);
