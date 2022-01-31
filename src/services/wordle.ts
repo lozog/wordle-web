@@ -1,4 +1,5 @@
 import { ALLOWED_GUESSES, ANSWERS } from "services/answers";
+import { WORD_LENGTH } from "./constants";
 
 export enum LetterResult {
   NOT_IN_WORD,
@@ -17,6 +18,12 @@ export interface LetterResults { [x: string]: LetterResult; };
 export interface GuessResult {
   guess: string;
   result: LetterResult[];
+}
+
+export enum GuessStatus {
+  VALID,
+  LENGTH,
+  WORD_LIST
 }
 
 export function analyzeGuess(guess: string, word: string, letterResults: LetterResults) {
@@ -65,11 +72,13 @@ export function getRandomWord() {
 }
 
 export function validateGuess(guess: string) {
-  // TODO: validate length
-
-  if (ALLOWED_GUESSES.indexOf(guess) === -1 && ANSWERS.indexOf(guess) === -1) {
-    return "Not in word list"
+  if (guess.length !== WORD_LENGTH) {
+    return GuessStatus.LENGTH;
   }
 
-  return null;
+  if (ALLOWED_GUESSES.indexOf(guess) === -1 && ANSWERS.indexOf(guess) === -1) {
+    return GuessStatus.WORD_LIST;
+  }
+
+  return GuessStatus.VALID;
 }
