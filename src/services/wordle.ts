@@ -1,3 +1,5 @@
+import { answers } from "./answers";
+
 export enum LetterResult {
   NOT_IN_WORD,
   INCORRECT_POSITION,
@@ -22,7 +24,7 @@ export interface GuessResult {
   result: LetterResult[];
 }
 
-export const analyzeGuess = (guess: string, word: string, letterResults: LetterResults) => {
+export function analyzeGuess(guess: string, word: string, letterResults: LetterResults) {
   const guessResult = guess.split("").map(_ => LetterResult.NOT_IN_WORD);
   const remainingGuess = guess.split("");
   const unguessedLetters = word.split("");
@@ -59,4 +61,10 @@ export const analyzeGuess = (guess: string, word: string, letterResults: LetterR
   return {
     result: guessResult, updatedLetterResults
   };
+}
+
+export function getRandomWord() {
+  const word = answers[Math.floor(Math.random() * answers.length)];
+
+  return word;
 }

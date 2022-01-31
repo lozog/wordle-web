@@ -1,14 +1,24 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Keyboard } from "components/Keyboard";
 import { Guess } from "components/Guess";
-import { ALPHABET, LetterResult, MAX_GUESS_COUNT, WORD_LENGTH, GuessResult, LetterResults, analyzeGuess } from "services/wordle";
+import {
+  ALPHABET,
+  LetterResult,
+  MAX_GUESS_COUNT,
+  WORD_LENGTH,
+  GuessResult,
+  LetterResults,
+  analyzeGuess,
+  getRandomWord
+} from "services/wordle";
 import * as S from "./styles";
 
 export function App() {
-  const word = "crimp";
   const [currentGuess, setCurrentGuess] = useState("");
   const [prevGuesses, setPrevGuesses] = useState<GuessResult[]>([]);
   const [letterResults, setLetterResults] = useState <LetterResults>({});
+  const word = useMemo(() => getRandomWord(), []);
+  console.log(word) // TODO: only do this locally
 
   const handleLetterPress = (letter: string) => {
     setCurrentGuess(prevGuess => {
