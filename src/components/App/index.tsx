@@ -27,15 +27,19 @@ const analyzeGuess = (guess: string, word: string, letterResults: LetterResults)
   })
 
   // 3. keep track of guessed letters
-  const fullGuessResults = guess.split("").map((letter, i) => ({[letter]: guessResult[i]}));
-  let letterResultsToUpdate = {};
+  const fullGuessResults = guess.split("").map((letter, i) => ([letter, guessResult[i]]));
+  let updatedLetterResults = letterResults;
   fullGuessResults.forEach((guessResult, i) => {
-    // TODO: only overwrite when LetterResult is UNUSED
-    letterResultsToUpdate = { ...letterResultsToUpdate, ...guessResult}
+    if (
+      guessResult[1] === LetterResult.CORRECT_POSITION
+      || updatedLetterResults[guessResult[0]] === LetterResult.UNUSED
+    ) {
+      updatedLetterResults = { ...updatedLetterResults, ...{ [guessResult[0]]: guessResult[1] as LetterResult } }
+    }
   })
 
   return {
-    result: guessResult, letterResultsToUpdate
+    result: guessResult, updatedLetterResults
   };
 }
 
@@ -72,13 +76,13 @@ export function App() {
     if (key === "Enter") {
       setCurrentGuess(prevGuess => { // TODO: sometimes this gets called twice when enter is pressed
         if (prevGuess.length === WORD_LENGTH) {
-          const { result, letterResultsToUpdate } = analyzeGuess(prevGuess, word, letterResults);
+          const { result, updatedLetterResults } = analyzeGuess(prevGuess, word, letterResults);
           const guessResult = {
             guess: prevGuess,
             result,
           };
           setPrevGuesses([...prevGuesses, guessResult]); // TODO: useCallback
-          setLetterResults({...letterResults, ...letterResultsToUpdate});
+          setLetterResults({...letterResults, ...updatedLetterResults});
           return "";
         }
         return prevGuess;
