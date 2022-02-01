@@ -1,5 +1,5 @@
 import { ALLOWED_GUESSES, ANSWERS } from "services/answers";
-import { WORD_LENGTH } from "./constants";
+import { ALPHABET, WORD_LENGTH } from "./constants";
 
 export enum LetterResult {
   NOT_IN_WORD,
@@ -66,6 +66,10 @@ export function analyzeGuess(guess: string, word: string, letterResults: LetterR
 
 export function getRandomWord() {
   return ANSWERS[Math.floor(Math.random() * ANSWERS.length)];
+}
+
+export function getEmptyLetterResults() {
+  return ALPHABET.reduce((a, letter) => ({ ...a, [letter]: LetterResult.NOT_GUESSED }), {});
 }
 
 export function validateGuess(guess: string) {

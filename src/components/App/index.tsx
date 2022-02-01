@@ -3,9 +3,8 @@ import { Header } from "components/Header";
 import { Keyboard } from "components/Keyboard";
 import { GameControls } from "components/GameControls";
 import { Guess } from "components/Guess";
-import { ALPHABET, MAX_GUESS_COUNT, WORD_LENGTH } from "services/constants";
+import { MAX_GUESS_COUNT, WORD_LENGTH } from "services/constants";
 import {
-  LetterResult,
   GuessResult,
   LetterResults,
   GameState,
@@ -14,7 +13,8 @@ import {
   validateGuess,
   getStatusText,
   isGuessCorrect,
-  isGameInProgress
+  isGameInProgress,
+  getEmptyLetterResults
 } from "services/wordle";
 import { GlobalStyle } from "globalStyle";
 import * as S from "./styles";
@@ -144,9 +144,8 @@ export function App() {
     }
   }, [handleUserKeyPress])
 
-  useEffect(() => {
-    // TODO: move to services/wordle
-    setLetterResults(ALPHABET.reduce((a, letter) => ({ ...a, [letter]: LetterResult.NOT_GUESSED }), {}));
+  useEffect(() => { // this runs at the start of each game
+    setLetterResults(getEmptyLetterResults());
 
     if (!isStorageInitialized()) {
       const statisticsStorage = {
