@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { Header } from "components/Header";
 import { Keyboard } from "components/Keyboard";
 import { GameControls } from "components/GameControls";
 import { Guess } from "components/Guess";
@@ -146,6 +147,7 @@ export function App() {
 
   return (
     <S.Container>
+      <Header />
       <S.GameState>
         {gameState === GameState.LOSS && (
           <S.Word>{word}</S.Word>
