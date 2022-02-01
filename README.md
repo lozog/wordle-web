@@ -1,5 +1,7 @@
 # Wordle Clone for web
 
+![Screenshot of Wordle Clone](/screenshots/example.png)
+
 A clone of [Wordle](https://www.powerlanguage.co.uk/wordle/).
 
 Built using React, hosted with Netlify.
