@@ -33,3 +33,19 @@ export const Link = styled.a`
     margin: 0;
   }
 `;
+
+export const LinkButton = styled.button`
+  margin-right: 8px;
+  background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+  text-decoration: underline;
+
+  :last-child {
+    margin: 0;
+  }
+`;

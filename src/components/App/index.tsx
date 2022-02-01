@@ -3,6 +3,7 @@ import { Header } from "components/Header";
 import { Keyboard } from "components/Keyboard";
 import { GameControls } from "components/GameControls";
 import { Guess } from "components/Guess";
+import { Modal } from "components/Modal";
 import { MAX_GUESS_COUNT, WORD_LENGTH } from "services/constants";
 import {
   GuessResult,
@@ -26,6 +27,7 @@ export function App() {
   const [letterResults, setLetterResults] = useState <LetterResults>({});
   const [gameState, setGameState] = useState(GameState.VALID);
   const [word, setWord] = useState(getRandomWord());
+  const [isStatsModalOpen, setIsStatsModalOpen] = useState(true);
 
   const resetGame = () => {
     setCurrentGuess("");
@@ -169,7 +171,11 @@ export function App() {
     <>
       <GlobalStyle />
       <S.Container>
-        <Header />
+        <Header
+          openModal={() => {
+            setIsStatsModalOpen(true);
+          }}
+        />
         <S.GameState>
           {gameState === GameState.LOSS && (
             <S.Word>{word}</S.Word>
@@ -189,6 +195,12 @@ export function App() {
           handleSubmit={handleSubmit}
         />
       </S.Container>
+      <Modal
+        isOpen={isStatsModalOpen}
+        closeModal={() => {
+          setIsStatsModalOpen(false);
+        }}
+      />
     </>
   );
 }
