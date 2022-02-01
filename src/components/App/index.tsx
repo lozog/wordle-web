@@ -18,6 +18,7 @@ import {
 } from "services/wordle";
 import { GlobalStyle } from "globalStyle";
 import * as S from "./styles";
+import { isStorageInitialized, saveGameResult, updateStats } from "services/local-storage";
 
 export function App() {
   const [currentGuess, setCurrentGuess] = useState("");
@@ -73,6 +74,7 @@ export function App() {
         };
 
         if (isGuessCorrect(guessResult)) {
+          saveGameResult(GameState.WIN, prevGuesses.length);
           setGameState(GameState.WIN);
         }
 
@@ -80,6 +82,7 @@ export function App() {
         setPrevGuesses(_ => {
           if (prevGuesses.length + 1 === MAX_GUESS_COUNT) {
             setGameState(GameState.LOSS);
+            saveGameResult(GameState.LOSS);
           }
           return [...prevGuesses, guessResult];
         });
@@ -142,7 +145,20 @@ export function App() {
   }, [handleUserKeyPress])
 
   useEffect(() => {
+    // TODO: move to services/wordle
     setLetterResults(ALPHABET.reduce((a, letter) => ({ ...a, [letter]: LetterResult.NOT_GUESSED }), {}));
+
+    if (!isStorageInitialized()) {
+      const statisticsStorage = {
+        gamesPlayed: 0,
+        gamesWon: 0,
+        guesses: [...Array(MAX_GUESS_COUNT)].map((_, i) => 0),
+        currentStreak: 0,
+        maxStreak: 0
+      }
+
+      updateStats(statisticsStorage);
+    }
   }, [word])
 
   return (
