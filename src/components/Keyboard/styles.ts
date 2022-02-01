@@ -36,6 +36,10 @@ export const KeyButton = styled.button<{ letterResult?: number, wide?: boolean }
   }};
 
   ${props => props.wide && "flex: 1.5;"};
+
+  :last-child {
+    margin: 0;
+  }
 `;
 
 export const Row = styled.div`
@@ -46,5 +50,8 @@ export const Row = styled.div`
 export const KeySpacer = styled.div`
   display: flex;
   margin: 0 6px 0 0;
-  flex: 0.5;
+  flex: 0.3;
+  :last-child {
+    margin: 0;
+  }
 `;
