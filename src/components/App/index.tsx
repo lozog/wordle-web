@@ -16,6 +16,7 @@ import {
   isGuessCorrect,
   isGameInProgress
 } from "services/wordle";
+import { GlobalStyle } from "globalStyle";
 import * as S from "./styles";
 
 export function App() {
@@ -146,26 +147,29 @@ export function App() {
   }
 
   return (
-    <S.Container>
-      <Header />
-      <S.GameState>
-        {gameState === GameState.LOSS && (
-          <S.Word>{word}</S.Word>
-        )}
-        {gameState !== GameState.LOSS && (
-          getStatusText(gameState)
-        )}
-      </S.GameState>
-      <GameControls gameState={gameState} resetGame={resetGame} />
-      <S.Guesses>
-        {renderGuesses()}
-      </S.Guesses>
-      <Keyboard
-        letterResults={letterResults}
-        handleLetterPress={handleLetterPress}
-        handleBackspace={handleBackspace}
-        handleSubmit={handleSubmit}
-      />
-    </S.Container>
+    <>
+      <GlobalStyle />
+      <S.Container>
+        <Header />
+        <S.GameState>
+          {gameState === GameState.LOSS && (
+            <S.Word>{word}</S.Word>
+          )}
+          {gameState !== GameState.LOSS && (
+            getStatusText(gameState)
+          )}
+        </S.GameState>
+        <GameControls gameState={gameState} resetGame={resetGame} />
+        <S.Guesses>
+          {renderGuesses()}
+        </S.Guesses>
+        <Keyboard
+          letterResults={letterResults}
+          handleLetterPress={handleLetterPress}
+          handleBackspace={handleBackspace}
+          handleSubmit={handleSubmit}
+        />
+      </S.Container>
+    </>
   );
 }
