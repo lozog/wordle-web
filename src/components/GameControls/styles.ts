@@ -26,6 +26,7 @@ export const ReplayButton = styled.button`
   border-radius: 4px;
   padding: 8px;
   text-transform: uppercase;
+  font-weight: bold;
 
   :hover {
     background-color: #565758;
