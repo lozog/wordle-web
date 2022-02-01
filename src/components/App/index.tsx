@@ -109,18 +109,6 @@ export function App() {
     }
   }, [gameState, handleBackspace, handleSubmit, handleLetterPress]);
 
-  useEffect(() => {
-    document.addEventListener('keydown', handleUserKeyPress);
-    return () => {
-      document.removeEventListener('keydown', handleUserKeyPress);
-    }
-  }, [handleUserKeyPress])
-
-  useEffect(() => {
-    console.log(word) // TODO: only do this locally
-    setLetterResults(ALPHABET.reduce((a, letter) => ({ ...a, [letter]: LetterResult.NOT_GUESSED }), {}));
-  }, [word])
-
   const getWordToRender = (i: number) => {
     let wordToRender = prevGuesses[i];
 
@@ -145,6 +133,17 @@ export function App() {
       />
     ));
   }
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleUserKeyPress);
+    return () => {
+      document.removeEventListener('keydown', handleUserKeyPress);
+    }
+  }, [handleUserKeyPress])
+
+  useEffect(() => {
+    setLetterResults(ALPHABET.reduce((a, letter) => ({ ...a, [letter]: LetterResult.NOT_GUESSED }), {}));
+  }, [word])
 
   return (
     <>
