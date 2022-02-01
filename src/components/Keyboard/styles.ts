@@ -1,5 +1,6 @@
-import { LetterResult } from "services/wordle";
 import styled from "styled-components";
+import { LetterResult } from "services/wordle";
+import { colours as c } from "globalStyle";
 
 export const Container = styled.div`
   height: 200px;
@@ -24,15 +25,15 @@ export const KeyButton = styled.button<{ letterResult?: number, wide?: boolean }
 
   background ${({ letterResult }) => {
     if (letterResult === LetterResult.CORRECT_POSITION) {
-      return "#538d4e";
+      return c.green;
     }
     if (letterResult === LetterResult.INCORRECT_POSITION) {
-      return "#b59f3b";
+      return c.yellow;
     }
     if (letterResult === LetterResult.NOT_IN_WORD) {
-      return "#3a3a3c";
+      return c.darkGrey;
     }
-    return "#565758"
+  return c.grey;
   }};
 
   ${props => props.wide && "flex: 1.5;"};

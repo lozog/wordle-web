@@ -1,13 +1,22 @@
 import { createGlobalStyle } from "styled-components";
 
+export const colours = {
+  black: "#121213",
+  white: "#d7dadc",
+  grey: "#565758",
+  darkGrey: "#3a3a3c",
+  yellow: "#b59f3b",
+  green: "#538d4e"
+}
+
 export const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
-    color: #d7dadc;
+    color: ${colours.white};
   }
 
   html {
-    background: #121213;
+    background: ${colours.black};
   }
 
   body {

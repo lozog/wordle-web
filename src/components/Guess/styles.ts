@@ -1,5 +1,6 @@
-import { LetterResult } from "services/wordle";
 import styled from "styled-components";
+import { LetterResult } from "services/wordle";
+import { colours as c } from "globalStyle";
 
 export const Container = styled.div<{ wordLength: number }>`
   display: grid;
@@ -22,23 +23,23 @@ export const Letter = styled.div<{
   place-items: center;
   justify-content: center;
   text-transform: uppercase;
-  border: 2px solid #565758;
+  border: 2px solid ${c.grey};
   font-size: 2rem;
   font-weight: bold;
 
-  ${props => (props.letterToRender !== "") && "border: 1px solid #d7dadc;"};
+  ${props => (props.letterToRender !== "") && `border: 1px solid ${c.white};`};
 
   ${props => {
     if (props.letterResult === LetterResult.CORRECT_POSITION) {
-      return "background: #538d4e; border: none;";
+      return `background: ${c.green}; border: none;`;
     }
 
     if (props.letterResult === LetterResult.INCORRECT_POSITION) {
-      return "background: #b59f3b; border: none;";
+      return `background: ${c.yellow}; border: none;`;
     }
 
     if (props.letterResult === LetterResult.NOT_IN_WORD) {
-      return "background: #3a3a3c; border: none;";
+      return `background: ${c.darkGrey}; border: none;`;
     }
 
     return "";

@@ -1,11 +1,12 @@
 import styled from "styled-components";
+import { colours as c } from "globalStyle";
 
 export const Container = styled.div`
   position: relative;
   width: 100%;
   padding-bottom: 8px;
   font-weight: bold;
-  border-bottom: 2px solid #565758;
+  border-bottom: 2px solid ${c.grey};
 `;
 
 export const Title = styled.div`

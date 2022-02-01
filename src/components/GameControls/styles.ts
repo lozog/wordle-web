@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { colours as c } from "globalStyle";
 
 export const Container = styled.div`
   display: flex;
@@ -19,7 +20,7 @@ export const ReplayButton = styled.button`
   font-weight: bold;
 
   :hover {
-    background-color: #565758;
+    background-color: ${c.grey};
     cursor: pointer;
   }
 `;

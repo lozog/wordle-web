@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { colours as c } from "globalStyle";
 
 export const Container = styled.div`
   display: flex;
@@ -19,8 +20,8 @@ export const GameState = styled.div`
 `;
 
 export const Word = styled.div`
-  color: #121213;
-  background-color: #d7dadc;
+  color: ${c.white};
+  background-color: ${c.black};
   padding: 8px;
   border-radius: 4px;
   display: inline-block;
