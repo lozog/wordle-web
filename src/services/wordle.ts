@@ -10,22 +10,19 @@ export enum LetterResult {
 
 export enum GameState {
   LOSS,
-  IN_PROGRESS,
+  VALID,
+  LENGTH,
+  WORD_LIST,
   WIN
 }
 
-export interface LetterResults { [x: string]: LetterResult; };
+export interface LetterResults {
+  [x: string]: LetterResult;
+};
 
 export interface GuessResult {
   guess: string;
   result: LetterResult[];
-}
-
-export enum GuessStatus {
-  VALID,
-  LENGTH,
-  WORD_LIST,
-  CORRECT
 }
 
 export function analyzeGuess(guess: string, word: string, letterResults: LetterResults) {
@@ -75,27 +72,31 @@ export function getRandomWord() {
 
 export function validateGuess(guess: string) {
   if (guess.length !== WORD_LENGTH) {
-    return GuessStatus.LENGTH;
+    return GameState.LENGTH;
   }
 
   if (ALLOWED_GUESSES.indexOf(guess) === -1 && ANSWERS.indexOf(guess) === -1) {
-    return GuessStatus.WORD_LIST;
+    return GameState.WORD_LIST;
   }
 
-  return GuessStatus.VALID;
+  return GameState.VALID;
 }
 
-export function getStatusText(status: GuessStatus) {
-  if (status === GuessStatus.LENGTH) {
+export function getStatusText(gameState: GameState, word = "") {
+  if (gameState === GameState.LENGTH) {
     return "Not enough letters.";
   }
 
-  if (status === GuessStatus.WORD_LIST) {
+  if (gameState === GameState.WORD_LIST) {
     return "Not in word list.";
   }
 
-  if (status === GuessStatus.CORRECT) {
+  if (gameState === GameState.WIN) {
     return "Correct!";
+  }
+
+  if (gameState === GameState.LOSS) {
+    return word;
   }
 
   return "";
@@ -105,4 +106,12 @@ export function isGuessCorrect(guessResult: GuessResult) {
   const { result } = guessResult;
 
   return result.filter((elem) => elem !== LetterResult.CORRECT_POSITION).length === 0;
+}
+
+export function isGameInProgress(status: GameState) {
+  return [
+    GameState.VALID,
+    GameState.LENGTH,
+    GameState.WORD_LIST
+  ].includes(status);
 }

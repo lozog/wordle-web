@@ -9,13 +9,23 @@ export const Container = styled.div`
   user-select: none;
 `;
 
-export const StatusText = styled.div`
+export const GameState = styled.div`
   display: flex;
   width: 100%;
-  height: 32px;
+  height: 56px;
   font-weight: bold;
   place-items: center;
   justify-content: center;
+`;
+
+export const Word = styled.div`
+  color: #121213;
+  background-color: #d7dadc;
+  padding: 8px;
+  border-radius: 4px;
+  display: inline-block;
+  margin: 8px 0;
+  text-transform: uppercase;
 `;
 
 export const Guesses = styled.div`

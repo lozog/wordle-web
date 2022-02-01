@@ -7,13 +7,13 @@ import {
   LetterResult,
   GuessResult,
   LetterResults,
+  GameState,
   analyzeGuess,
   getRandomWord,
   validateGuess,
-  GuessStatus,
   getStatusText,
   isGuessCorrect,
-  GameState
+  isGameInProgress
 } from "services/wordle";
 import * as S from "./styles";
 
@@ -21,21 +21,19 @@ export function App() {
   const [currentGuess, setCurrentGuess] = useState("");
   const [prevGuesses, setPrevGuesses] = useState<GuessResult[]>([]);
   const [letterResults, setLetterResults] = useState <LetterResults>({});
-  const [guessStatus, setGuessStatus] = useState(GuessStatus.VALID);
-  const [gameState, setGameState] = useState(GameState.IN_PROGRESS);
+  const [gameState, setGameState] = useState(GameState.VALID);
   const [word, setWord] = useState(getRandomWord());
 
   const resetGame = () => {
     setCurrentGuess("");
     setPrevGuesses([]);
     setLetterResults({});
-    setGuessStatus(GuessStatus.VALID);
-    setGameState(GameState.IN_PROGRESS);
+    setGameState(GameState.VALID);
     setWord(getRandomWord());
   };
 
   const handleLetterPress = useCallback((letter: string) => {
-    if (gameState !== GameState.IN_PROGRESS) {
+    if (!isGameInProgress(gameState)) {
       return;
     }
 
@@ -57,14 +55,14 @@ export function App() {
   }, []);
 
   const handleSubmit = useCallback(() => {
-    const guessStatus = validateGuess(currentGuess);
-    if (guessStatus !== GuessStatus.VALID) {
-      setGuessStatus(guessStatus);
+    const gameState = validateGuess(currentGuess);
+    if (gameState !== GameState.VALID) {
+      setGameState(gameState);
       return;
     }
-    setGuessStatus(GuessStatus.VALID);
+    setGameState(GameState.VALID);
 
-    setCurrentGuess(prevGuess => { // TODO: sometimes this gets called twice when enter is pressed
+    setCurrentGuess(prevGuess => {
       if (prevGuess.length === WORD_LENGTH) {
         const { result, updatedLetterResults } = analyzeGuess(prevGuess, word, letterResults);
         const guessResult = {
@@ -73,7 +71,6 @@ export function App() {
         };
 
         if (isGuessCorrect(guessResult)) {
-          setGuessStatus(GuessStatus.CORRECT);
           setGameState(GameState.WIN);
         }
 
@@ -83,7 +80,7 @@ export function App() {
             setGameState(GameState.LOSS);
           }
           return [...prevGuesses, guessResult];
-        }); // TODO: useCallback
+        });
 
         return "";
       }
@@ -92,7 +89,7 @@ export function App() {
   }, [currentGuess, letterResults, prevGuesses, word]);
 
   const handleUserKeyPress = useCallback(event => {
-    if (gameState !== GameState.IN_PROGRESS) {
+    if (!isGameInProgress(gameState)) {
       return;
     }
 
@@ -149,8 +146,15 @@ export function App() {
 
   return (
     <S.Container>
-      <S.StatusText>{getStatusText(guessStatus)}</S.StatusText>
-      <GameControls gameState={gameState} word={word} resetGame={resetGame} />
+      <S.GameState>
+        {gameState === GameState.LOSS && (
+          <S.Word>{word}</S.Word>
+        )}
+        {gameState !== GameState.LOSS && (
+          getStatusText(gameState)
+        )}
+      </S.GameState>
+      <GameControls gameState={gameState} resetGame={resetGame} />
       <S.Guesses>
         {renderGuesses()}
       </S.Guesses>
@@ -159,7 +163,7 @@ export function App() {
         handleLetterPress={handleLetterPress}
         handleBackspace={handleBackspace}
         handleSubmit={handleSubmit}
-        />
+      />
     </S.Container>
   );
 }

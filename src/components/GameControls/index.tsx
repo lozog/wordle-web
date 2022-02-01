@@ -1,20 +1,16 @@
 import React from "react";
-import { GameState } from "services/wordle";
+import { GameState, isGameInProgress } from "services/wordle";
 import * as S from "./styles";
 
 interface Props {
   gameState: GameState;
-  word: string;
   resetGame: () => void;
 }
 
-export function GameControls({ gameState, word, resetGame }: Props) {
+export function GameControls({ gameState, resetGame }: Props) {
   return (
     <S.Container>
-      {gameState === GameState.LOSS && (
-        <S.Word>{word}</S.Word>
-      )}
-      {gameState !== GameState.IN_PROGRESS && (
+      {!isGameInProgress(gameState) && (
         <S.ReplayButton onClick={resetGame}>Play Again?</S.ReplayButton>
       )}
     </S.Container>

@@ -3,21 +3,11 @@ import styled from "styled-components";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: 80px;
+  height: 32px;
   width: 100%;
   font-weight: bold;
   place-items: center;
   justify-content: center;
-`;
-
-export const Word = styled.div`
-  color: #121213;
-  background-color: #d7dadc;
-  padding: 8px;
-  border-radius: 4px;
-  display: inline-block;
-  margin-bottom: 12px;
-  text-transform: uppercase;
 `;
 
 export const ReplayButton = styled.button`
