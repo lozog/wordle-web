@@ -74,7 +74,6 @@ export function App() {
         };
 
         if (isGuessCorrect(guessResult)) {
-          saveGameResult(GameState.WIN, prevGuesses.length);
           setGameState(GameState.WIN);
         }
 
@@ -82,7 +81,6 @@ export function App() {
         setPrevGuesses(_ => {
           if (prevGuesses.length + 1 === MAX_GUESS_COUNT) {
             setGameState(GameState.LOSS);
-            saveGameResult(GameState.LOSS);
           }
           return [...prevGuesses, guessResult];
         });
@@ -144,6 +142,13 @@ export function App() {
     }
   }, [handleUserKeyPress])
 
+  useEffect(() => {
+    if (!isGameInProgress(gameState)) {
+      console.log("game ended, updating localstorage")
+      saveGameResult(gameState, prevGuesses.length);
+    }
+  }, [gameState, prevGuesses.length])
+
   useEffect(() => { // this runs at the start of each game
     setLetterResults(getEmptyLetterResults());
 
@@ -151,7 +156,7 @@ export function App() {
       const statisticsStorage = {
         gamesPlayed: 0,
         gamesWon: 0,
-        guesses: [...Array(MAX_GUESS_COUNT)].map((_, i) => 0),
+        guesses: [...Array(MAX_GUESS_COUNT)].map(_ => 0),
         currentStreak: 0,
         maxStreak: 0
       }

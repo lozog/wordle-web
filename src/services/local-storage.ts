@@ -33,17 +33,13 @@ export function saveGameResult(gameState: GameState, guessCount = 0) {
     guesses
   } = readStats();
 
-  console.log(gamesPlayed)
-  console.log(gamesWon)
-  console.log(currentStreak)
-  console.log(maxStreak)
-  console.log(guesses)
+  const newCurrentStreak = gameState === GameState.WIN ? currentStreak + 1 : 0;
 
   updateStats({
     gamesWon: gameState === GameState.WIN ? gamesWon + 1 : gamesWon,
     gamesPlayed: gamesPlayed + 1,
-    currentStreak: gameState === GameState.WIN ? currentStreak + 1 : 0,
-    maxStreak: Math.max(currentStreak, maxStreak),
+    currentStreak: newCurrentStreak,
+    maxStreak: Math.max(newCurrentStreak, maxStreak),
     guesses: (guesses as number[]).map((value, i) => guessCount === i ? value + 1 : value)
   });
 }
