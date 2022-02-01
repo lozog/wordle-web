@@ -65,9 +65,7 @@ export function analyzeGuess(guess: string, word: string, letterResults: LetterR
 }
 
 export function getRandomWord() {
-  const word = ANSWERS[Math.floor(Math.random() * ANSWERS.length)];
-
-  return word;
+  return ANSWERS[Math.floor(Math.random() * ANSWERS.length)];
 }
 
 export function validateGuess(guess: string) {
@@ -104,7 +102,6 @@ export function getStatusText(gameState: GameState, word = "") {
 
 export function isGuessCorrect(guessResult: GuessResult) {
   const { result } = guessResult;
-
   return result.filter((elem) => elem !== LetterResult.CORRECT_POSITION).length === 0;
 }
 
