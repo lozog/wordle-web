@@ -43,6 +43,31 @@ export const CloseButton = styled.button`
 `;
 
 export const Statistics = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+export const Stat = styled.div`
+  flex: 1;
+  margin-right: 24px;
+  max-width: 45px;
+
+  :last-child {
+    margin: 0;
+  }
+`;
+
+export const StatValue = styled.div`
+  display: flex;
+  font-size: 40px;
+  justify-content: center;
+`;
+
+export const StatLabel = styled.div`
+  display: flex;
+  font-size: 12px;
+  justify-content: center;
+  text-align: center;
 `;
 
 export const GuessDistribution = styled.div`
