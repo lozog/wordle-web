@@ -8,8 +8,9 @@ export enum LetterResult {
   NOT_GUESSED,
 }
 
-export enum GameResult {
+export enum GameState {
   LOSS,
+  IN_PROGRESS,
   WIN
 }
 
