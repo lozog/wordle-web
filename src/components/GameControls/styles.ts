@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: 50px;
+  height: 80px;
   width: 100%;
   font-weight: bold;
   place-items: center;
@@ -16,7 +16,7 @@ export const Word = styled.div`
   padding: 8px;
   border-radius: 4px;
   display: inline-block;
-  margin-bottom: 18px;
+  margin-bottom: 12px;
   text-transform: uppercase;
 `;
 

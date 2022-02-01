@@ -6,12 +6,13 @@ export const Container = styled.div`
   max-width: 500px;
   margin: 0 auto;
   min-height: 100vh;
+  user-select: none;
 `;
 
 export const StatusText = styled.div`
   display: flex;
   width: 100%;
-  height: 50px;
+  height: 32px;
   font-weight: bold;
   place-items: center;
   justify-content: center;
@@ -23,5 +24,5 @@ export const Guesses = styled.div`
   grid-template-rows: repeat(6, 1fr);
   width: 350px;
   height: 420px;
-  margin: 50px auto;
+  margin: 8px auto;
 `;
