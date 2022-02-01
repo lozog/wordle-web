@@ -1,5 +1,13 @@
 import styled from "styled-components";
 
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  margin: 0 auto;
+  min-height: 100vh;
+`;
+
 export const StatusText = styled.div`
   display: flex;
   width: 100%;
@@ -7,13 +15,6 @@ export const StatusText = styled.div`
   font-weight: bold;
   place-items: center;
   justify-content: center;
-`;
-
-export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 500px;
-  margin: 0 auto;
 `;
 
 export const Guesses = styled.div`

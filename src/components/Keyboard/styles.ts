@@ -3,9 +3,10 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   height: 200px;
+  margin-top: auto;
 `;
 
-export const KeyButton = styled.button<{ letterResult: number }>`
+export const KeyButton = styled.button<{ letterResult?: number, wide?: boolean }>`
   display: flex;
   flex: 1;
   cursor: pointer;
@@ -19,6 +20,7 @@ export const KeyButton = styled.button<{ letterResult: number }>`
   height: 48px;
   text-transform: uppercase;
   border-radius: 4px;
+  font-weight: bold;
 
   background ${({ letterResult }) => {
     if (letterResult === LetterResult.CORRECT_POSITION) {
@@ -30,10 +32,10 @@ export const KeyButton = styled.button<{ letterResult: number }>`
     if (letterResult === LetterResult.NOT_IN_WORD) {
       return "#3a3a3c";
     }
-    if (letterResult === LetterResult.NOT_GUESSED) {
-      return "#565758";
-    }
+    return "#565758"
   }};
+
+  ${props => props.wide && "flex: 1.5;"};
 `;
 
 export const Row = styled.div`
@@ -41,10 +43,8 @@ export const Row = styled.div`
   margin-bottom: 6px;
 `;
 
-export const KeySpacer = styled.div<{ flex: number }>`
+export const KeySpacer = styled.div`
   display: flex;
   margin: 0 6px 0 0;
   flex: 0.5;
-
-  flex ${({ flex }) => flex};
 `;

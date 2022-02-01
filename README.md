@@ -26,3 +26,5 @@ Please make sure to update tests as appropriate. -->
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
+
+Backspace icon from [Arrows 19](https://www.svgrepo.com/svg/238276/backspace)

@@ -34,7 +34,7 @@ export function App() {
     setWord(getRandomWord());
   };
 
-  const handleLetterPress = (letter: string) => {
+  const handleLetterPress = useCallback((letter: string) => {
     if (gameState !== GameState.IN_PROGRESS) {
       return;
     }
@@ -45,7 +45,51 @@ export function App() {
       }
       return prevGuess;
     });
-  }
+  }, [gameState]);
+
+  const handleBackspace = useCallback(() => {
+    setCurrentGuess(prevGuess => {
+      if (prevGuess.length > 0) {
+        return prevGuess.slice(0, -1);
+      }
+      return "";
+    });
+  }, []);
+
+  const handleSubmit = useCallback(() => {
+    const guessStatus = validateGuess(currentGuess);
+    if (guessStatus !== GuessStatus.VALID) {
+      setGuessStatus(guessStatus);
+      return;
+    }
+    setGuessStatus(GuessStatus.VALID);
+
+    setCurrentGuess(prevGuess => { // TODO: sometimes this gets called twice when enter is pressed
+      if (prevGuess.length === WORD_LENGTH) {
+        const { result, updatedLetterResults } = analyzeGuess(prevGuess, word, letterResults);
+        const guessResult = {
+          guess: prevGuess,
+          result,
+        };
+
+        if (isGuessCorrect(guessResult)) {
+          setGuessStatus(GuessStatus.CORRECT);
+          setGameState(GameState.WIN);
+        }
+
+        setLetterResults({ ...letterResults, ...updatedLetterResults });
+        setPrevGuesses(_ => {
+          if (prevGuesses.length + 1 === MAX_GUESS_COUNT) {
+            setGameState(GameState.LOSS);
+          }
+          return [...prevGuesses, guessResult];
+        }); // TODO: useCallback
+
+        return "";
+      }
+      return prevGuess;
+    });
+  }, [currentGuess, letterResults, prevGuesses, word]);
 
   const handleUserKeyPress = useCallback(event => {
     if (gameState !== GameState.IN_PROGRESS) {
@@ -58,49 +102,13 @@ export function App() {
     }
 
     if (key === "Backspace") {
-      setCurrentGuess(prevGuess => {
-        if (prevGuess.length > 0) {
-          return prevGuess.slice(0, -1);
-        }
-        return "";
-      });
+      handleBackspace();
     }
 
     if (key === "Enter") {
-      const guessStatus = validateGuess(currentGuess);
-      if (guessStatus !== GuessStatus.VALID) {
-        setGuessStatus(guessStatus);
-        return;
-      }
-      setGuessStatus(GuessStatus.VALID);
-
-      setCurrentGuess(prevGuess => { // TODO: sometimes this gets called twice when enter is pressed
-        if (prevGuess.length === WORD_LENGTH) {
-          const { result, updatedLetterResults } = analyzeGuess(prevGuess, word, letterResults);
-          const guessResult = {
-            guess: prevGuess,
-            result,
-          };
-
-          if(isGuessCorrect(guessResult)) {
-            setGuessStatus(GuessStatus.CORRECT);
-            setGameState(GameState.WIN);
-          }
-
-          setLetterResults({ ...letterResults, ...updatedLetterResults });
-          setPrevGuesses(_ => {
-            if (prevGuesses.length + 1 === MAX_GUESS_COUNT) {
-              setGameState(GameState.LOSS);
-            }
-            return [...prevGuesses, guessResult];
-          }); // TODO: useCallback
-
-          return "";
-        }
-        return prevGuess;
-      });
+      handleSubmit();
     }
-  }, [gameState, currentGuess, prevGuesses, word, letterResults]);
+  }, [gameState, handleBackspace, handleSubmit, handleLetterPress]);
 
   useEffect(() => {
     document.addEventListener('keydown', handleUserKeyPress);
@@ -146,7 +154,12 @@ export function App() {
       <S.Guesses>
         {renderGuesses()}
       </S.Guesses>
-      <Keyboard letterResults={letterResults} handleLetterPress={handleLetterPress} />
+      <Keyboard
+        letterResults={letterResults}
+        handleLetterPress={handleLetterPress}
+        handleBackspace={handleBackspace}
+        handleSubmit={handleSubmit}
+        />
     </S.Container>
   );
 }

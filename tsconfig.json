@@ -12,7 +12,7 @@
     "sourceMap": true
   },
   "include": [
-    "src/**/*"
+    "src/**/*", "src/custom.d.ts"
   ],
   "exclude": [
     "node_modules"
@@ -20,5 +20,6 @@
   "paths": {
       "components/*": ["src/components/*"],
       "services/*": ["src/services/*"],
+      "static/*": ["src/static/*"],
     },
 }

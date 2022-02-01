@@ -1,21 +1,66 @@
 import React from "react";
 import { LetterResult } from "services/wordle";
+import { ReactComponent as BackspaceIcon } from "static/backspace.svg";
 import * as S from "./styles";
 
 const TOP_ROW = "qwertyuiop";
 const MIDDLE_ROW = "asdfghjkl";
-const BOTTOM_ROW = "zxcvbnm";
+const BOTTOM_ROW = "<zxcvbnm>";
 
 interface Props {
   letterResults: {
     [x: string]: LetterResult;
   };
   handleLetterPress: (letter: string) => void;
+  handleBackspace: () => void;
+  handleSubmit: () => void;
 }
 
-export function Keyboard({ letterResults, handleLetterPress }: Props) {
-  const renderRow = (rowLetters: string) => {
-    return [...rowLetters].map(letter => (
+export function Keyboard({
+  letterResults,
+  handleLetterPress,
+  handleBackspace,
+  handleSubmit
+}: Props) {
+  const renderKey = (letter: string) => {
+    if (letter === "<") {
+      return (
+        <S.KeyButton
+          key={letter}
+          onClick={() => {
+            handleSubmit();
+          }}
+          onKeyDown={(e) => {
+            e.preventDefault()
+          }}
+          wide
+        >
+          Enter
+        </S.KeyButton>
+      );
+    }
+
+    if (letter === ">") {
+      return (
+        <S.KeyButton
+          key={letter}
+          onClick={() => {
+            handleBackspace();
+          }}
+          onKeyDown={(e) => {
+            e.preventDefault()
+          }}
+          wide
+        >
+          <BackspaceIcon style={{
+            fill: "#d7dadc",
+            width: "24px"
+          }}/>
+        </S.KeyButton>
+      );
+    }
+
+    return (
       <S.KeyButton
         key={letter}
         letterResult={letterResults[letter]}
@@ -28,21 +73,23 @@ export function Keyboard({ letterResults, handleLetterPress }: Props) {
       >
         {letter}
       </S.KeyButton>
-    ))
+    );
+  }
+
+  const renderRow = (rowLetters: string) => {
+    return [...rowLetters].map(letter => renderKey(letter))
   };
 
   return (
     <S.Container>
       <S.Row>{renderRow(TOP_ROW)}</S.Row>
       <S.Row>
-        <S.KeySpacer flex={0.5} />
+        <S.KeySpacer />
         {renderRow(MIDDLE_ROW)}
-        <S.KeySpacer flex={0.5} />
+        <S.KeySpacer />
       </S.Row>
       <S.Row>
-        <S.KeySpacer flex={1.5} />
         {renderRow(BOTTOM_ROW)}
-        <S.KeySpacer flex={1.5} />
       </S.Row>
     </S.Container>
   );
