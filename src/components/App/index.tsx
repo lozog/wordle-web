@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Keyboard } from "components/Keyboard";
 import { GameControls } from "components/GameControls";
 import { Guess } from "components/Guess";
