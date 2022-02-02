@@ -5,6 +5,7 @@ import { GameControls } from "components/GameControls";
 import { Guess } from "components/Guess";
 import { Modal } from "components/Modal";
 import { MAX_GUESS_COUNT, WORD_LENGTH } from "services/constants";
+import { isStorageInitialized, resetStats, saveGameResult } from "services/local-storage";
 import {
   GuessResult,
   LetterResults,
@@ -19,7 +20,6 @@ import {
 } from "services/wordle";
 import { GlobalStyle } from "globalStyle";
 import * as S from "./styles";
-import { isStorageInitialized, resetStats, saveGameResult } from "services/local-storage";
 
 export function App() {
   const [currentGuess, setCurrentGuess] = useState("");

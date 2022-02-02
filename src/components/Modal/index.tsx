@@ -28,11 +28,11 @@ export const Modal = ({ isOpen, closeModal }: Props) => {
     setCurrentStreak(currentStreak);
     setMaxStreak(maxStreak);
     setGuesses(guesses);
-  }
+  };
 
   useEffect(() => {
     readStatsFromStorage();
-  }, [isOpen])
+  }, [isOpen]);
 
   const winPercentage = Math.round((gamesWon / gamesPlayed) * 100) || 0;
 
