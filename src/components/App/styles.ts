@@ -17,12 +17,11 @@ export const GameState = styled.div`
   font-weight: bold;
   place-items: center;
   justify-content: center;
-  // TODO: highlight word
 `;
 
 export const Word = styled.div`
-  color: ${c.white};
-  background-color: ${c.black};
+  color: ${c.black};
+  background-color: ${c.white};
   padding: 8px;
   border-radius: 4px;
   display: inline-block;
