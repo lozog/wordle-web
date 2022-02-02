@@ -23,6 +23,9 @@ export const Container = styled.div`
   transform: translate(-50%,-50%);
   padding: 16px;
   border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 export const TopBar = styled.div`
@@ -50,6 +53,7 @@ export const Statistics = styled.div`
 export const Stat = styled.div`
   flex: 1;
   margin-right: 24px;
+  margin-bottom: 24px;
   max-width: 45px;
 
   :last-child {
@@ -71,4 +75,15 @@ export const StatLabel = styled.div`
 `;
 
 export const GuessDistribution = styled.div`
+`;
+
+export const Button = styled.button`
+  background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+  text-decoration: underline;
 `;

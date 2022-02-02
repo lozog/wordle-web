@@ -17,6 +17,7 @@ export const GameState = styled.div`
   font-weight: bold;
   place-items: center;
   justify-content: center;
+  // TODO: highlight word
 `;
 
 export const Word = styled.div`

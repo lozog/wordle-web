@@ -1,3 +1,4 @@
+import { MAX_GUESS_COUNT } from "./constants";
 import { GameState } from "./wordle";
 
 function saveToLocalStorage(key: string, value: object) {
@@ -8,23 +9,32 @@ function readFromLocalStorage(key: string) {
   return JSON.parse(localStorage.getItem(key));
 }
 
-export function isStorageInitialized() {
-  return Boolean(localStorage.getItem("statistics"));
-}
-
-export function updateStats(values: object) {
+function updateStats(values: object) {
   saveToLocalStorage("statistics", {
     ...readFromLocalStorage("statistics"),
     ...values
   });
 }
 
+export function isStorageInitialized() {
+  return Boolean(localStorage.getItem("statistics"));
+}
+
 export function readStats() {
   return readFromLocalStorage("statistics");
 }
 
+export function resetStats() {
+  updateStats({
+    gamesPlayed: 0,
+    gamesWon: 0,
+    guesses: [...Array(MAX_GUESS_COUNT)].map(_ => 0),
+    currentStreak: 0,
+    maxStreak: 0
+  });
+}
+
 export function saveGameResult(gameState: GameState, guessCount = 0) {
-  console.log("saveGameResult")
   const { 
     gamesPlayed,
     gamesWon,

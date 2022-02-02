@@ -19,7 +19,7 @@ import {
 } from "services/wordle";
 import { GlobalStyle } from "globalStyle";
 import * as S from "./styles";
-import { isStorageInitialized, saveGameResult, updateStats } from "services/local-storage";
+import { isStorageInitialized, resetStats, saveGameResult } from "services/local-storage";
 
 export function App() {
   const [currentGuess, setCurrentGuess] = useState("");
@@ -27,7 +27,7 @@ export function App() {
   const [letterResults, setLetterResults] = useState <LetterResults>({});
   const [gameState, setGameState] = useState(GameState.VALID);
   const [word, setWord] = useState(getRandomWord());
-  const [isStatsModalOpen, setIsStatsModalOpen] = useState(true);
+  const [isStatsModalOpen, setIsStatsModalOpen] = useState(false);
 
   const resetGame = () => {
     setCurrentGuess("");
@@ -146,7 +146,6 @@ export function App() {
 
   useEffect(() => {
     if (!isGameInProgress(gameState)) {
-      console.log("game ended, updating localstorage")
       saveGameResult(gameState, prevGuesses.length);
     }
   }, [gameState, prevGuesses.length])
@@ -155,15 +154,7 @@ export function App() {
     setLetterResults(getEmptyLetterResults());
 
     if (!isStorageInitialized()) {
-      const statisticsStorage = {
-        gamesPlayed: 0,
-        gamesWon: 0,
-        guesses: [...Array(MAX_GUESS_COUNT)].map(_ => 0),
-        currentStreak: 0,
-        maxStreak: 0
-      }
-
-      updateStats(statisticsStorage);
+      resetStats();
     }
   }, [word])
 

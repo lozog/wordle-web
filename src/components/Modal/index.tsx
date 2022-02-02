@@ -1,5 +1,5 @@
-import React from "react";
-import { readStats } from "services/local-storage";
+import React, { useEffect, useState } from "react";
+import { readStats, resetStats } from "services/local-storage";
 import * as S from "./styles";
 
 interface Props {
@@ -8,15 +8,33 @@ interface Props {
 }
 
 export const Modal = ({ isOpen, closeModal }: Props) => {
-  const {
-    gamesPlayed,
-    gamesWon,
-    currentStreak,
-    maxStreak,
-    guesses
-  } = readStats();
+  const [gamesPlayed, setGamesPlayed] = useState(0);
+  const [gamesWon, setGamesWon] = useState(0);
+  const [currentStreak, setCurrentStreak] = useState(0);
+  const [maxStreak, setMaxStreak] = useState(0);
+  const [guesses, setGuesses] = useState([]);
 
-  const winPercentage = (gamesWon / gamesPlayed) * 100;
+  const readStatsFromStorage = () => {
+    const {
+      gamesPlayed,
+      gamesWon,
+      currentStreak,
+      maxStreak,
+      guesses
+    } = readStats();
+
+    setGamesPlayed(gamesPlayed);
+    setGamesWon(gamesWon);
+    setCurrentStreak(currentStreak);
+    setMaxStreak(maxStreak);
+    setGuesses(guesses);
+  }
+
+  useEffect(() => {
+    readStatsFromStorage();
+  }, [isOpen])
+
+  const winPercentage = Math.round((gamesWon / gamesPlayed) * 100) || 0;
 
   return (
     <S.Overlay isOpen={isOpen}>
@@ -43,6 +61,7 @@ export const Modal = ({ isOpen, closeModal }: Props) => {
           </S.Stat>
         </S.Statistics>
         <S.GuessDistribution></S.GuessDistribution>
+        <S.Button onClick={() => { resetStats(); readStatsFromStorage(); }}>reset</S.Button>
       </S.Container>
     </S.Overlay>
   );
