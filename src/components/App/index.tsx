@@ -111,6 +111,10 @@ export function App() {
     if (key === "Enter") {
       handleSubmit();
     }
+
+    if (key === "Escape") {
+      setIsStatsModalOpen(false);
+    }
   }, [gameState, handleBackspace, handleSubmit, handleLetterPress]);
 
   const getWordToRender = (i: number) => {
