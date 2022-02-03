@@ -61,7 +61,9 @@ export const Modal = ({ isOpen, closeModal }: Props) => {
           </S.Stat>
         </S.Statistics>
         <S.GuessDistribution></S.GuessDistribution>
-        <S.Button onClick={() => { resetStats(); readStatsFromStorage(); }}>reset</S.Button>
+        <S.ResetButtonContainer>
+          <S.Button onClick={() => { resetStats(); readStatsFromStorage(); }}>reset</S.Button>
+        </S.ResetButtonContainer>
       </S.Container>
     </S.Overlay>
   );

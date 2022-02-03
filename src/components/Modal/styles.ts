@@ -77,6 +77,11 @@ export const StatLabel = styled.div`
 export const GuessDistribution = styled.div`
 `;
 
+export const ResetButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 export const Button = styled.button`
   background: none;
 	color: inherit;
