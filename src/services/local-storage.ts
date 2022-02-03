@@ -28,7 +28,7 @@ export function resetStats() {
   updateStats({
     gamesPlayed: 0,
     gamesWon: 0,
-    guesses: [...Array(MAX_GUESS_COUNT)].map(_ => 0),
+    guesses: [...Array(MAX_GUESS_COUNT + 1)].map(_ => 0), // add 1 because you can't have 0 guesses
     currentStreak: 0,
     maxStreak: 0
   });

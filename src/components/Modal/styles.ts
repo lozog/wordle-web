@@ -72,9 +72,28 @@ export const StatLabel = styled.div`
   font-size: 12px;
   justify-content: center;
   text-align: center;
+  font-weight: bold;
 `;
 
 export const GuessDistribution = styled.div`
+`;
+
+export const GuessBarContainer = styled.div`
+  display: flex;
+  margin-bottom: 4px;
+`;
+
+export const GuessBarLabel = styled.div`
+  margin-right: 8px;
+  width: 18px;
+`;
+
+export const GuessBar = styled.div<{ percentage: number }>`
+  background: ${c.grey};
+  width: ${({ percentage }) => percentage}%;
+  min-width: 28px;
+  font-weight: bold;
+  padding-left: 8px;
 `;
 
 export const ResetButtonContainer = styled.div`
