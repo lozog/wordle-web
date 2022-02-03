@@ -13,6 +13,7 @@ export enum GameState {
   VALID,
   LENGTH,
   WORD_LIST,
+  HARD_MODE,
   WIN
 }
 
@@ -72,13 +73,52 @@ export function getEmptyLetterResults() {
   return ALPHABET.reduce((a, letter) => ({ ...a, [letter]: LetterResult.NOT_GUESSED }), {});
 }
 
-export function validateGuess(guess: string) {
+export function validateGuess(
+  guess: string,
+  isHardMode: boolean,
+  word: string,
+  letterResults: LetterResults
+) {
   if (guess.length !== WORD_LENGTH) {
     return GameState.LENGTH;
   }
 
   if (ALLOWED_GUESSES.indexOf(guess) === -1 && ANSWERS.indexOf(guess) === -1) {
     return GameState.WORD_LIST;
+  }
+
+  if (isHardMode) {
+    const wordLetters = word.split("");
+    const guessLetters = guess.split("");
+
+    for (const [i, letter] of guessLetters.entries()) {
+      if (
+        letterResults[wordLetters[i]] === LetterResult.CORRECT_POSITION
+        && letter !== wordLetters[i]
+      ) {
+        // letter at position {i+1} must be {wordLetters[i]}
+        return GameState.HARD_MODE;
+      }
+    }
+
+    Object.keys(letterResults).forEach((letter) => {
+      if (
+        letterResults[letter] === LetterResult.INCORRECT_POSITION
+        && !guessLetters.includes(letter)
+      ) {
+        // guess must contain letter previously found in word
+        return GameState.HARD_MODE;
+      }
+    })
+
+    for (const letter in letterResults) {
+      if (
+        letterResults[letter] === LetterResult.INCORRECT_POSITION
+        && !guessLetters.includes(letter)
+      ) {
+        return GameState.HARD_MODE;
+      }
+    }
   }
 
   return GameState.VALID;
@@ -97,6 +137,10 @@ export function getStatusText(gameState: GameState, word = "") {
     return "Correct!";
   }
 
+  if (gameState === GameState.HARD_MODE) {
+    return "Guess must include previously revealed hints.";
+  }
+
   if (gameState === GameState.LOSS) {
     return word;
   }
@@ -110,9 +154,8 @@ export function isGuessCorrect(guessResult: GuessResult) {
 }
 
 export function isGameInProgress(status: GameState) {
-  return [
-    GameState.VALID,
-    GameState.LENGTH,
-    GameState.WORD_LIST
+  return ![
+    GameState.LOSS,
+    GameState.WIN
   ].includes(status);
 }

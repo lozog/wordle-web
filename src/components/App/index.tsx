@@ -28,6 +28,7 @@ export function App() {
   const [gameState, setGameState] = useState(GameState.VALID);
   const [word, setWord] = useState(getRandomWord());
   const [isStatsModalOpen, setIsStatsModalOpen] = useState(false);
+  const [isHardMode, setIsHardMode] = useState(false);
 
   const resetGame = () => {
     setCurrentGuess("");
@@ -60,7 +61,7 @@ export function App() {
   }, []);
 
   const handleSubmit = useCallback(() => {
-    const gameState = validateGuess(currentGuess);
+    const gameState = validateGuess(currentGuess, isHardMode, word, letterResults);
     if (gameState !== GameState.VALID) {
       setGameState(gameState);
       return;
@@ -91,7 +92,7 @@ export function App() {
       }
       return prevGuess;
     });
-  }, [currentGuess, letterResults, prevGuesses, word]);
+  }, [currentGuess, letterResults, prevGuesses, word, isHardMode]);
 
   const handleUserKeyPress = useCallback(event => {
     if (!isGameInProgress(gameState)) {
@@ -151,6 +152,7 @@ export function App() {
   }, [gameState, prevGuesses.length])
 
   useEffect(() => { // this runs at the start of each game
+    // console.log(word)
     setLetterResults(getEmptyLetterResults());
 
     if (!isStorageInitialized()) {
@@ -166,6 +168,10 @@ export function App() {
           openModal={() => {
             setIsStatsModalOpen(true);
           }}
+          toggleHardMode={() => {
+            setIsHardMode(prevIsHardMode => !prevIsHardMode);
+          }}
+          isHardMode={isHardMode}
         />
         <S.GameState>
           {gameState === GameState.LOSS && (
