@@ -15,13 +15,20 @@ export const Modal = ({ isOpen, closeModal }: Props) => {
   const [guesses, setGuesses] = useState([]);
 
   const readStatsFromStorage = () => {
+    const statsFromStorage = readStats();
+
+    if (!statsFromStorage) {
+      // this can happen the first time the page loads if the storage hasn't been set up yet
+      return;
+    }
+
     const {
       gamesPlayed,
       gamesWon,
       currentStreak,
       maxStreak,
       guesses
-    } = readStats();
+    } = statsFromStorage;
 
     setGamesPlayed(gamesPlayed);
     setGamesWon(gamesWon);
