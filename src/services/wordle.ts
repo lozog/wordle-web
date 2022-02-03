@@ -125,27 +125,20 @@ export function validateGuess(
 }
 
 export function getStatusText(gameState: GameState, word = "") {
-  if (gameState === GameState.LENGTH) {
-    return "Not enough letters.";
-  }
-
-  if (gameState === GameState.WORD_LIST) {
-    return "Not in word list.";
-  }
-
-  if (gameState === GameState.WIN) {
+  switch(gameState) {
+    case GameState.LENGTH:
+      return "Not enough letters.";
+    case GameState.WORD_LIST:
+      return "Not in word list.";
+    case GameState.WIN:
     return "Correct!";
+    case GameState.HARD_MODE:
+      return "Guess must include previously revealed hints.";
+    case GameState.LOSS:
+      return word;
+    default:
+      return "";
   }
-
-  if (gameState === GameState.HARD_MODE) {
-    return "Guess must include previously revealed hints.";
-  }
-
-  if (gameState === GameState.LOSS) {
-    return word;
-  }
-
-  return "";
 }
 
 export function isGuessCorrect(guessResult: GuessResult) {
