@@ -78,15 +78,12 @@ export function App() {
 
         if (isGuessCorrect(guessResult)) {
           setGameState(GameState.WIN);
+        } else if (prevGuesses.length + 1 === MAX_GUESS_COUNT) { // add one for the current guess
+          setGameState(GameState.LOSS);
         }
 
         setLetterResults({ ...letterResults, ...updatedLetterResults });
-        setPrevGuesses(_ => {
-          if (prevGuesses.length + 1 === MAX_GUESS_COUNT) {
-            setGameState(GameState.LOSS);
-          }
-          return [...prevGuesses, guessResult];
-        });
+        setPrevGuesses([...prevGuesses, guessResult]);
 
         return "";
       }
