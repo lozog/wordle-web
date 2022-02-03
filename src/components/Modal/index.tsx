@@ -37,8 +37,8 @@ export const Modal = ({ isOpen, closeModal }: Props) => {
   const winPercentage = Math.round((gamesWon / gamesPlayed) * 100) || 0;
 
   return (
-    <S.Overlay isOpen={isOpen}>
-      <S.Container>
+    <S.Overlay isOpen={isOpen} onClick={closeModal}>
+      <S.Container onClick={(e) => e.stopPropagation()}>
         <S.TopBar>
           <S.CloseButton onClick={closeModal}>X</S.CloseButton>
         </S.TopBar>
