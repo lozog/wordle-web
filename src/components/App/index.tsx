@@ -5,7 +5,7 @@ import { GameControls } from "components/GameControls";
 import { Guess } from "components/Guess";
 import { Modal } from "components/Modal";
 import { MAX_GUESS_COUNT, WORD_LENGTH } from "services/constants";
-import { isStorageInitialized, resetStats, saveGameResult } from "services/local-storage";
+import { isStorageInitialized, readHardMode, resetStats, saveGameResult, saveHardMode } from "services/local-storage";
 import {
   GuessResult,
   LetterResults,
@@ -158,7 +158,11 @@ export function App() {
 
     if (!isStorageInitialized()) {
       resetStats();
+      saveHardMode(isHardMode);
+    } else {
+      setIsHardMode(readHardMode());
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [word])
 
   return (
@@ -170,7 +174,11 @@ export function App() {
             setIsStatsModalOpen(true);
           }}
           toggleHardMode={() => {
-            setIsHardMode(prevIsHardMode => !prevIsHardMode);
+            setIsHardMode(prevIsHardMode => {
+              const res = !prevIsHardMode;
+              saveHardMode(res);
+              return res;
+            });
           }}
           isHardMode={isHardMode}
         />

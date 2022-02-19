@@ -1,7 +1,7 @@
 import { MAX_GUESS_COUNT } from "./constants";
 import { GameState } from "./wordle";
 
-function saveToLocalStorage(key: string, value: object) {
+function saveToLocalStorage(key: string, value: any) {
   localStorage.setItem(key, JSON.stringify(value));
 }
 
@@ -18,6 +18,14 @@ function updateStats(values: object) {
 
 export function isStorageInitialized() {
   return Boolean(localStorage.getItem("statistics"));
+}
+
+export function saveHardMode(isHardModeEnabled = false) {
+  saveToLocalStorage("hard_mode", isHardModeEnabled)
+}
+
+export function readHardMode() {
+  return Boolean(readFromLocalStorage("hard_mode"));
 }
 
 export function readStats() {
