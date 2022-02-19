@@ -77,7 +77,7 @@ export function validateGuess(
   guess: string,
   isHardMode: boolean,
   word: string,
-  letterResults: LetterResults
+  prevGuessResult: GuessResult
 ) {
   if (guess.length !== WORD_LENGTH) {
     return GameState.LENGTH;
@@ -87,35 +87,35 @@ export function validateGuess(
     return GameState.WORD_LIST;
   }
 
-  if (isHardMode) {
+  if (isHardMode && prevGuessResult) {
     const wordLetters = word.split("");
     const guessLetters = guess.split("");
 
+    // 1. check for correct position hints
     for (const [i, letter] of guessLetters.entries()) {
       if (
-        letterResults[wordLetters[i]] === LetterResult.CORRECT_POSITION
+        prevGuessResult.result[i] === LetterResult.CORRECT_POSITION
         && letter !== wordLetters[i]
       ) {
-        // letter at position {i+1} must be {wordLetters[i]}
+        // console.log(`letter at position ${i+1} must be ${wordLetters[i]}`)
         return GameState.HARD_MODE;
       }
     }
 
-    Object.keys(letterResults).forEach((letter) => {
-      if (
-        letterResults[letter] === LetterResult.INCORRECT_POSITION
-        && !guessLetters.includes(letter)
-      ) {
-        // guess must contain letter previously found in word
-        return GameState.HARD_MODE;
-      }
-    })
+    // when we check for incorrect position letters, we want to ignore letters that are already
+    // in the correct position (in case there's multiple of the same letter)
+    const guessWithoutCorrectLetters = guessLetters.filter(
+      (_, i) => prevGuessResult.result[i] !== LetterResult.CORRECT_POSITION
+    );
+    const prevGuessLetters = prevGuessResult.guess.split("");
 
-    for (const letter in letterResults) {
+    // 2. check for incorrect position hints
+    for (const [i, letter] of prevGuessLetters.entries()) {
       if (
-        letterResults[letter] === LetterResult.INCORRECT_POSITION
-        && !guessLetters.includes(letter)
+        prevGuessResult.result[i] === LetterResult.INCORRECT_POSITION
+        && !guessWithoutCorrectLetters.includes(letter)
       ) {
+        // console.log(`guess must contain ${letter}`)
         return GameState.HARD_MODE;
       }
     }

@@ -5,7 +5,13 @@ import { GameControls } from "components/GameControls";
 import { Guess } from "components/Guess";
 import { Modal } from "components/Modal";
 import { MAX_GUESS_COUNT, WORD_LENGTH } from "services/constants";
-import { isStorageInitialized, readHardMode, resetStats, saveGameResult, saveHardMode } from "services/local-storage";
+import {
+  isStorageInitialized,
+  readHardMode,
+  resetStats,
+  saveGameResult,
+  saveHardMode
+} from "services/local-storage";
 import {
   GuessResult,
   LetterResults,
@@ -24,7 +30,7 @@ import * as S from "./styles";
 export function App() {
   const [currentGuess, setCurrentGuess] = useState("");
   const [prevGuesses, setPrevGuesses] = useState<GuessResult[]>([]);
-  const [letterResults, setLetterResults] = useState <LetterResults>({});
+  const [letterResults, setLetterResults] = useState<LetterResults>({});
   const [gameState, setGameState] = useState(GameState.VALID);
   const [word, setWord] = useState(getRandomWord());
   const [isStatsModalOpen, setIsStatsModalOpen] = useState(false);
@@ -61,7 +67,12 @@ export function App() {
   }, []);
 
   const handleSubmit = useCallback(() => {
-    const gameState = validateGuess(currentGuess, isHardMode, word, letterResults);
+    const gameState = validateGuess(
+      currentGuess,
+      isHardMode,
+      word,
+      prevGuesses[prevGuesses.length - 1]
+    );
     if (gameState !== GameState.VALID) {
       setGameState(gameState);
       return;
