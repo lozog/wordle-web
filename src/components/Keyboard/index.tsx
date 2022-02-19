@@ -1,4 +1,5 @@
 import React from "react";
+import { colours as c } from "globalStyle";
 import { LetterResult } from "services/wordle";
 import { ReactComponent as BackspaceIcon } from "static/backspace.svg";
 import * as S from "./styles";
@@ -47,7 +48,7 @@ export function Keyboard({
           wide
         >
           <BackspaceIcon style={{
-            fill: "#d7dadc",
+            fill: `${c.white}`,
             width: "24px"
           }}/>
         </S.KeyButton>
