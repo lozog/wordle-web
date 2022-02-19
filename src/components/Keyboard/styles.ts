@@ -23,7 +23,7 @@ export const KeyButton = styled.button<{ letterResult?: number, wide?: boolean }
   border-radius: 4px;
   font-weight: bold;
 
-  background ${({ letterResult }) => {
+  background: ${({ letterResult }) => {
     if (letterResult === LetterResult.CORRECT_POSITION) {
       return c.green;
     }

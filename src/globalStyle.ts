@@ -29,6 +29,6 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   button:focus{
-      outline: none;
+    outline: none;
   }
 `;
