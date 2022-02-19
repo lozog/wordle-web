@@ -17,7 +17,7 @@ export function Header({ openModal, toggleHardMode, isHardMode }: Props) {
         <S.Link href="https://www.powerlanguage.co.uk/wordle/" target="_blank" rel="noopener noreferrer">og wordle</S.Link>
         <S.LinkButton onClick={openModal}>stats</S.LinkButton>
         <S.LinkButton
-          onKeyDown={(e) => { e.preventDefault(); }} // prevent ENTER from toggling hard mode
+          onMouseDown={(e) => { e.preventDefault(); }} // prevent ENTER from toggling hard mode
           onClick={toggleHardMode}
         >
           {isHardMode ? "disable" : "enable"} hard mode

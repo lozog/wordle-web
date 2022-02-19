@@ -27,12 +27,9 @@ export function Keyboard({
       return (
         <S.KeyButton
           key={letter}
-          onClick={() => {
-            handleSubmit();
-          }}
-          onKeyDown={(e) => {
-            e.preventDefault()
-          }}
+          onClick={() => { handleSubmit(); }}
+          onKeyDown={(e) => { e.preventDefault(); }}
+          onMouseDown={(e) => { e.preventDefault(); }}
           wide
         >
           Enter
@@ -44,12 +41,9 @@ export function Keyboard({
       return (
         <S.KeyButton
           key={letter}
-          onClick={() => {
-            handleBackspace();
-          }}
-          onKeyDown={(e) => {
-            e.preventDefault()
-          }}
+          onClick={() => { handleBackspace(); }}
+          onKeyDown={(e) => { e.preventDefault() }}
+          onMouseDown={(e) => { e.preventDefault(); }}
           wide
         >
           <BackspaceIcon style={{
@@ -64,12 +58,9 @@ export function Keyboard({
       <S.KeyButton
         key={letter}
         letterResult={letterResults[letter]}
-        onClick={() => {
-          handleLetterPress(letter);
-        }}
-        onKeyDown={(e) => {
-          e.preventDefault()
-        }}
+        onClick={() => { handleLetterPress(letter); }}
+        onKeyDown={(e) => { e.preventDefault() }}
+        onMouseDown={(e) => { e.preventDefault(); }}
       >
         {letter}
       </S.KeyButton>
